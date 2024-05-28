@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR.js Video Example with Controls</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.0/aframe/build/aframe-ar.js"></script>
+</head>
+<body style="margin: 0; overflow: hidden;">
+    <a-scene embedded arjs="sourceType: webcam;">
+       <!-- Marker for tracking -->
+    <a-marker type="pattern" url="/girl/pattern-hiro.patt">
+      <!-- Plane to display the image -->
+         <!-- Define video content here -->
+         <a-video id="videoScreen" src="#myVideo" width="3" height="2"></a-video>
+         <!-- Play button -->
+         <a-entity id="playButton" geometry="primitive: plane; width: 0.5; height: 0.5" material="color: #333" position="0 0 -3" 
+         cursor-listener
+         >
+             <a-text value="Play" align="center" position="0 0 0.1"></a-text>
+         </a-entity>
+        </a-marker>
+        <a-entity camera></a-entity>
+    </a-scene>
+
+    <!-- Define your video source -->
+    <video id="myVideo" style="display:none;" loop crossorigin="anonymous">
+        <source src="ar.mp4" type="video/mp4">
+        <!-- You can provide additional source types here for better compatibility -->
+    </video>
+
+    <!-- Script for play/pause functionality -->
+    <script>
+        AFRAME.registerComponent('cursor-listener', {
+            init: function () {
+                var el = this.el;
+                el.addEventListener('click', function () {
+                    var video = document.getElementById('myVideo');
+                    if (video.paused) {
+                        video.play();
+                    } else {
+                        video.pause();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
